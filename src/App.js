@@ -21,11 +21,19 @@ function App() {
       }
   }, [])
 
+  const logout = () => {
+    setToken("")
+    window.localStorage.removeItem("token")
+  }
+
   return (
     <div className="App">
       <header className="App-header">
         <h1>Music Like Me</h1>
-        <a href={`${AUTH_ENDPOINT}?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=${RESPONSE_TYPE}`}>Login To Spotify</a>
+        {!token ?
+          <a href={`${AUTH_ENDPOINT}?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=${RESPONSE_TYPE}`}>Login 
+          To Spotify</a>
+        : <button onClick={logout}>Logout</button>}
       </header>
     </div>
   );
