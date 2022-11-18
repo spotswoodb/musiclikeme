@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import './App.css';
-import axios from 'react-axios';
+import axios from 'axios';
 
 
 function App() {
@@ -11,6 +11,7 @@ function App() {
   const RESPONSE_TYPE = 'token'
 
   const [token, setToken] = useState("")
+  const [searchKey, setSearchKey] = useState("")
 
   useEffect(() => {
       const hash = window.location.hash
@@ -19,13 +20,29 @@ function App() {
         token = hash.substring(1).split("&").find(elem => elem.startsWith("access_token")).split("=")[1]
         window.location.hash = ""
         window.localStorage.setItem('token', token)
-        setToken(token)
       }
+      setToken(token)
   }, [])
 
   const logout = () => {
     setToken("")
     window.localStorage.removeItem("token")
+  }
+
+  const searchArtists = async (e) => {
+    e.preventDefault()
+    const {data} = await axios.get("https://api.spotify.com/v1/search", {
+      headers: {
+        Authorization: `Bearer ${token}`
+      },
+      params: {
+        q: searchKey,
+        type: 'artist'
+      }
+    })
+
+
+    console.log(data)
   }
 
   return (
@@ -38,8 +55,8 @@ function App() {
         : <button onClick={logout}>Logout</button>}
 
         {token ?
-          <form>
-            <input type="text"/>
+          <form onSubmit={searchArtists}>
+            <input type="text" onChange={e => setSearchKey(e.target.value)}/>
             <button type={"submit"}>Search</button>
           </form>
         
