@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react';
 import './App.css';
+import axios from 'react-axios';
+
 
 function App() {
 
@@ -34,6 +36,15 @@ function App() {
           <a href={`${AUTH_ENDPOINT}?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=${RESPONSE_TYPE}`}>Login 
           To Spotify</a>
         : <button onClick={logout}>Logout</button>}
+
+        {token ?
+          <form>
+            <input type="text"/>
+            <button type={"submit"}>Search</button>
+          </form>
+        
+          : <h2>Please Login</h2>
+        }
       </header>
     </div>
   );
