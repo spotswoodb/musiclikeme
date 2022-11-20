@@ -12,6 +12,7 @@ function App() {
 
   const [token, setToken] = useState("")
   const [searchKey, setSearchKey] = useState("")
+  const [artists,setArtists] = useState([])
 
   useEffect(() => {
       const hash = window.location.hash
@@ -41,8 +42,17 @@ function App() {
       }
     })
 
+    setArtists(data.artists.items)
 
-    console.log(data)
+  }
+
+  const renderArtists = () => {
+    return artists.map(artist => (
+      <div key={artist.id}>
+          {artist.images.length ? <img width={"50%"} src={artist.images[0].url} alt=""/> : <div>No Image</div>}
+          {artist.name}
+      </div>
+    ))
   }
 
   return (
@@ -62,6 +72,9 @@ function App() {
         
           : <h2>Please Login</h2>
         }
+
+        {renderArtists()}
+
       </header>
     </div>
   );
