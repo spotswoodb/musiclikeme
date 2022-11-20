@@ -81,6 +81,9 @@ function App() {
           To Spotify</a>
         : <button onClick={logout}>Logout</button>}
 
+        <h2>Search Artists</h2>
+
+
         {token ?
           <form onSubmit={searchArtists}>
             <input type="text" onChange={e => setSearchKey(e.target.value)}/>
@@ -90,6 +93,7 @@ function App() {
           : <h2>Please Login</h2>
         }
 
+        <h2>Search Podcasts</h2>
 
         {token ?
           <form onSubmit={searchShows}>
@@ -99,7 +103,7 @@ function App() {
         
           : <h2>Please Login</h2>
         }
-        
+
         {renderArtists()}
 
       </header>
