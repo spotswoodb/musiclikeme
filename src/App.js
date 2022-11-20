@@ -13,6 +13,7 @@ function App() {
   const [token, setToken] = useState("")
   const [searchKey, setSearchKey] = useState("")
   const [artists,setArtists] = useState([])
+  const [shows, setShows] = useState([])
 
   useEffect(() => {
       const hash = window.location.hash
@@ -59,7 +60,7 @@ function App() {
       }
     })
 
-    console.log(data.shows)    
+    setShows(data.shows.items)   
 
   }
 
@@ -68,6 +69,15 @@ function App() {
       <div key={artist.id}>
           {artist.images.length ? <img width={"50%"} src={artist.images[0].url} alt=""/> : <div>No Image</div>}
           {artist.name}
+      </div>
+    ))
+  }
+
+  const renderShows = () => {
+    return shows.map(show => (
+      <div key={show.id}>
+          {show.images.length ? <img width={"50%"} src={show.images[0].url} alt=""/> : <div>No image</div>}
+          {show.name}
       </div>
     ))
   }
@@ -105,6 +115,7 @@ function App() {
         }
 
         {renderArtists()}
+        {renderShows()}
 
       </header>
     </div>
