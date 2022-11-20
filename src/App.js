@@ -43,6 +43,23 @@ function App() {
     })
 
     setArtists(data.artists.items)
+    
+
+  }
+
+  const searchShows = async (e) => {
+    e.preventDefault()
+    const {data} = await axios.get("https://api.spotify.com/v1/search", {
+      headers: {
+        Authorization: `Bearer ${token}`
+      },
+      params: {
+        q: searchKey,
+        type: 'show'
+      }
+    })
+
+    console.log(data.shows)    
 
   }
 
@@ -73,6 +90,16 @@ function App() {
           : <h2>Please Login</h2>
         }
 
+
+        {token ?
+          <form onSubmit={searchShows}>
+            <input type="text" onChange={e => setSearchKey(e.target.value)}/>
+            <button type={"submit"}>Search</button>
+          </form>
+        
+          : <h2>Please Login</h2>
+        }
+        
         {renderArtists()}
 
       </header>
