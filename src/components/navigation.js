@@ -1,11 +1,11 @@
 import React from "react";
-import { NavLink, Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
 function Navigation() {
   return (
     <div className="navigation">
       <nav className="navbar navbar-expand navbar-dark bg-dark">
-        <div className="container">
+        <div className="container-fluid">
           <NavLink className="navbar-brand" to="/">
             Music Like Me
           </NavLink>
@@ -16,7 +16,6 @@ function Navigation() {
                   Home
                 </NavLink>
               </li>
-              
             </ul>
           </div>
         </div>
