@@ -10,11 +10,15 @@ function Home() {
   const REDIRECT_URI = 'http://localhost:3000'
   const AUTH_ENDPOINT = 'https://accounts.spotify.com/authorize'
   const RESPONSE_TYPE = 'token'
+  const SCOPES = [
+    "user-top-read"
+  ]
 
   const [token, setToken] = useState("")
   const [searchKey, setSearchKey] = useState("")
   const [artists,setArtists] = useState([])
   const [shows, setShows] = useState([])
+//   const [items, setItems] = useState([])
 
   useEffect(() => {
       const hash = window.location.hash
@@ -60,9 +64,24 @@ function Home() {
         type: 'show'
       }
     })
-    console.log(data.shows)
+    // console.log(data.shows)
     setShows(data.shows.items)   
 
+  }
+
+
+  const getTopTracks = async () => {
+    const {data} = await axios.get("https://api.spotify.com/v1/me/top/tracks", {
+        headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`,
+        },
+        // params: {
+        //     type: "tracks"
+        // }
+    })
+
+    console.log(data)
   }
 
   const renderArtists = () => {
@@ -83,13 +102,21 @@ function Home() {
     ))
   }
 
+//   const renderTopItems = () => {
+
+//     console.log(data)
+//     // return tracks.map(track => (
+//     //     <li>{track.name}</li>
+//     // ))
+//   }
+
   return (
     
     <div className="home">
       <header className="App-header">
         <h1>Music Like Me</h1>
         {!token ?
-          <a href={`${AUTH_ENDPOINT}?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=${RESPONSE_TYPE}`}>Login 
+          <a href={`${AUTH_ENDPOINT}?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&scope=${SCOPES}&response_type=${RESPONSE_TYPE}`}>Login 
           To Spotify</a>
         : <button onClick={logout}>Logout</button>}
 
@@ -116,8 +143,15 @@ function Home() {
           : <h2>Please Login</h2>
         }
 
+        <h2>Your Top Items:</h2>
+
+        {token ? <button onClick={getTopTracks} type={'submit'}>Click Me</button>
+          : <h2>Please Login</h2>
+        }
+
         {renderArtists()}
         {renderShows()}
+        {/* {renderTopItems()} */}
 
       </header>
     </div>
