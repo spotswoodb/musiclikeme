@@ -18,7 +18,7 @@ function Home() {
   const [searchKey, setSearchKey] = useState("")
   const [artists,setArtists] = useState([])
   const [shows, setShows] = useState([])
-//   const [items, setItems] = useState([])
+  const [tracks, setTracks] = useState([])
 
   useEffect(() => {
       const hash = window.location.hash
@@ -76,12 +76,10 @@ function Home() {
             'Content-Type': 'application/json',
             Authorization: `Bearer ${token}`,
         },
-        // params: {
-        //     type: "tracks"
-        // }
     })
 
-    console.log(data)
+    // console.log(data.items)
+    setTracks(data.items)
   }
 
   const renderArtists = () => {
@@ -102,13 +100,17 @@ function Home() {
     ))
   }
 
-//   const renderTopItems = () => {
+  const renderTopTracks = () => {
 
-//     console.log(data)
-//     // return tracks.map(track => (
-//     //     <li>{track.name}</li>
-//     // ))
-//   }
+    return tracks.map(track => (
+        <div key={track.id}>
+            <li>
+                {track.album.images.length ? <img width={"50%"} src={track.album.images[0].url} alt=""/> : <div>No image</div>}
+                {track.name}
+            </li>
+        </div>
+    ))
+  }
 
   return (
     
@@ -143,7 +145,7 @@ function Home() {
           : <h2>Please Login</h2>
         }
 
-        <h2>Your Top Items:</h2>
+        <h2>Your Top Tracks *figure out time range:</h2>
 
         {token ? <button onClick={getTopTracks} type={'submit'}>Click Me</button>
           : <h2>Please Login</h2>
@@ -151,7 +153,9 @@ function Home() {
 
         {renderArtists()}
         {renderShows()}
-        {/* {renderTopItems()} */}
+        <ol>
+            {renderTopTracks()}
+        </ol>
 
       </header>
     </div>
