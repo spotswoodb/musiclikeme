@@ -47,7 +47,7 @@ function Home() {
         type: 'artist'
       }
     })
-
+    // console.log(data.artists.items)
     setArtists(data.artists.items)
     
 
@@ -76,9 +76,12 @@ function Home() {
             'Content-Type': 'application/json',
             Authorization: `Bearer ${token}`,
         },
+        params: {
+            time_range: 'short_term'
+        }
     })
 
-    // console.log(data.items)
+    console.log(data.items)
     setTracks(data.items)
   }
 
