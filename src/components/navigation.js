@@ -15,6 +15,9 @@ function Navigation() {
                 <NavLink className="nav-link" to="/">
                   Home
                 </NavLink>
+                {/* <NavLink className="nav-link" to="/spotify">
+                  Spotify
+                </NavLink> */}
               </li>
             </ul>
           </div>
