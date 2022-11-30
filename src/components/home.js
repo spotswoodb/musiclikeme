@@ -69,6 +69,17 @@ function Home() {
 
   }
 
+  const getTracks = async () => {
+    const {data} = await axios.get("https://api.spotify.com/v1/tracks", {
+        headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`
+        },
+    })
+    
+    console.log(data)
+
+  }
 
   const getTopTracks = async () => {
     const {data} = await axios.get("https://api.spotify.com/v1/me/top/tracks", {
@@ -77,13 +88,14 @@ function Home() {
             Authorization: `Bearer ${token}`,
         },
         params: {
-            time_range: 'short_term'
+            time_range: 'long term_term'
         }
     })
 
-    console.log(data.items)
+    // console.log(data.items)
     setTracks(data.items)
   }
+
 
   const renderArtists = () => {
     return artists.map(artist => (
@@ -148,6 +160,13 @@ function Home() {
           : <h2>Please Login</h2>
         }
 
+        <h2>Top Tracks on Spotify:</h2>
+
+
+        {token ? <button onClick={getTracks} type={'submit'}>Click Me</button>
+        : <h2>Please Login</h2>
+        }
+
         <h2>Your Top Tracks *figure out time range:</h2>
 
         {token ? <button onClick={getTopTracks} type={'submit'}>Click Me</button>
@@ -159,6 +178,9 @@ function Home() {
         <ol>
             {renderTopTracks()}
         </ol>
+
+        
+        
 
       </header>
     </div>
